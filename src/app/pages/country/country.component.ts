@@ -13,22 +13,30 @@ import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DecimalPipe } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
-import { CountriesService } from './core/countries.service';
-import { Country } from './shared/interface/country.interface';
-import { SearchComponent } from './shared/search/search.component';
-
+import { CountriesService } from '../../core/countries.service';
+import { Country } from '../../shared/interface/country.interface';
+import { SearchComponent } from '../../shared/search/search.component';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { NgOptimizedImage } from '@angular/common';
 @Component({
-  selector: 'app-root',
+  selector: 'app-country',
   standalone: true,
   imports: [
-    RouterModule
+    ButtonModule,
+    CardModule,
+    DecimalPipe,
+    SkeletonModule,
+    SearchComponent,
+    RouterModule,
+    NgOptimizedImage
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './country.component.html',
 })
-export class AppComponent  {
+export default class CountryComponent {
   title = 'app';
   isDarkMode = signal(false);
+  countries = signal<Country[]>([]);
+  countryName = signal('');
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -38,6 +46,18 @@ export class AppComponent  {
       this.isDarkMode.set(localStorage.getItem('theme') === 'dark');
       this.toggleTheme(this.isDarkMode());
     }
+  }
+
+  countriesResource = rxResource({
+    request: () => ({ name: this.countryName() }),
+    loader: ({ request }) =>
+      request.name
+        ? this.countriesService.searchCountriesByName(request.name)
+        : this.countriesService.getCountries(),
+  });
+
+  onSearch(searchTerm: string) {
+    this.countryName.set(searchTerm);
   }
 
   toggleDarkMode() {
