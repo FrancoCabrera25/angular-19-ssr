@@ -12,62 +12,65 @@
       <p-skeleton width="85%"></p-skeleton>
     </div>
   </p-skeleton>
-  } } @else { @for (country of countriesResource.value(); track
-  country.name.common) { @defer (on viewport) {
-  <p-card
-    restoreScrollPosition
-    [header]="country.name.common"
-    class="h-full cursor-pointer transform transition-all hover:scale-105"
-    [style]="{ 'min-height': '400px' }"
-  >
-    <ng-template pTemplate="header">
-      <img
-        [ngSrc]="country.flags.svg"
-        [alt]="country.flags.alt || country.name.common"
-        width="400"
-        height="200"
-        priority
-        class="w-full h-48 object-cover"
-      />
-    </ng-template>
-    <div class="flex flex-col gap-2">
-      <div class="flex items-center gap-2">
-        <i class="pi pi-globe"></i>
-        <span>Capital: {{country.capital?.[0] || 'N/A'}}</span>
+  } } @else {
+  <ng-container restoreScrollPosition>
+    @for (country of countriesResource.value(); track country.name.common) {
+    @defer (on viewport) {
+    <p-card
+      [header]="country.name.common"
+      class="h-full cursor-pointer transform transition-all hover:scale-105"
+      [style]="{ 'min-height': '400px' }"
+    >
+      <ng-template pTemplate="header">
+        <img
+          [ngSrc]="country.flags.svg"
+          [alt]="country.flags.alt || country.name.common"
+          width="400"
+          height="200"
+          priority
+          class="w-full h-48 object-cover"
+        />
+      </ng-template>
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <i class="pi pi-globe"></i>
+          <span>Capital: {{country.capital?.[0] || 'N/A'}}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="pi pi-users"></i>
+          <span>Población: {{ country.population | number }}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="pi pi-map"></i>
+          <span>Región: {{ country.region }}</span>
+        </div>
       </div>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-users"></i>
-        <span>Población: {{ country.population | number }}</span>
+      <ng-template pTemplate="footer">
+        <div class="flex justify-center">
+          <p-button
+            [routerLink]="['/country', country.cca3]"
+            label="Ver más"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+          >
+          </p-button>
+        </div>
+      </ng-template>
+    </p-card>
+    } @placeholder {
+    <p-skeleton height="320px" styleClass="mb-2">
+      <div class="flex flex-col gap-2">
+        <p-skeleton height="48px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="60%" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="70%" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="85%"></p-skeleton>
       </div>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-map"></i>
-        <span>Región: {{ country.region }}</span>
-      </div>
+    </p-skeleton>
+    } } @empty {
+    <div class="col-span-full text-center py-8">
+      <p>No se encontraron países</p>
     </div>
-    <ng-template pTemplate="footer">
-      <div class="flex justify-center">
-        <p-button
-          [routerLink]="['/country', country.cca3]"
-          label="Ver más"
-          icon="pi pi-arrow-right"
-          iconPos="right"
-        >
-        </p-button>
-      </div>
-    </ng-template>
-  </p-card>
-  } @placeholder {
-  <p-skeleton height="320px" styleClass="mb-2">
-    <div class="flex flex-col gap-2">
-      <p-skeleton height="48px" styleClass="mb-2"></p-skeleton>
-      <p-skeleton width="60%" styleClass="mb-2"></p-skeleton>
-      <p-skeleton width="70%" styleClass="mb-2"></p-skeleton>
-      <p-skeleton width="85%"></p-skeleton>
-    </div>
-  </p-skeleton>
-  } } @empty {
-  <div class="col-span-full text-center py-8">
-    <p>No se encontraron países</p>
-  </div>
-  } }
+    }
+  </ng-container>
+  }
 </div>
