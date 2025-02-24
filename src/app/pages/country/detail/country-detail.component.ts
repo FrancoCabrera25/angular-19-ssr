@@ -1,5 +1,5 @@
 import { Component, inject, linkedSignal, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Country } from '../../../shared/interface/country.interface';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -15,7 +15,7 @@ import { NgOptimizedImage } from '@angular/common';
   template: `
     <div class="container mx-auto p-4">
       <p-button
-        routerLink="/"
+        (click)="goBack()"
         icon="pi pi-arrow-left"
         label="Volver"
         class="w-fit mb-10"
@@ -118,6 +118,7 @@ import { NgOptimizedImage } from '@angular/common';
 })
 export default class CountryDetailComponent {
   private route = inject(ActivatedRoute);
+  private location = inject(Location);
   private countriesService = inject(CountriesService);
 
   countryCode = signal<string>(this.route.snapshot.params['code']);
@@ -136,4 +137,8 @@ export default class CountryDetailComponent {
       .map((currency) => `${currency.name} (${currency.symbol})`)
       .join(', ')
   );
+
+  goBack() {
+    this.location.back();
+  }
 }

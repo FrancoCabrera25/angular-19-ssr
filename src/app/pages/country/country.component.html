@@ -15,6 +15,7 @@
   } } @else { @for (country of countriesResource.value(); track
   country.name.common) { @defer (on viewport) {
   <p-card
+    restoreScrollPosition
     [header]="country.name.common"
     class="h-full cursor-pointer transform transition-all hover:scale-105"
     [style]="{ 'min-height': '400px' }"
@@ -23,7 +24,8 @@
       <img
         [ngSrc]="country.flags.svg"
         [alt]="country.flags.alt || country.name.common"
-        width="400" height="200"
+        width="400"
+        height="200"
         priority
         class="w-full h-48 object-cover"
       />

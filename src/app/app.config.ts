@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import {
@@ -12,7 +12,6 @@ import { withFetch, provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServerRouting } from '@angular/ssr';
 import { serverRoutes } from './app.routes.server';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     providePrimeNG({
@@ -24,7 +23,9 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions(), withInMemoryScrolling({
+      scrollPositionRestoration: 'enabled'
+    })),
     provideClientHydration(withEventReplay()),
     provideServerRouting(serverRoutes),
     provideHttpClient(withFetch()),

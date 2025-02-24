@@ -18,6 +18,7 @@ import { Country } from '../../shared/interface/country.interface';
 import { SearchComponent } from '../../shared/search/search.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NgOptimizedImage } from '@angular/common';
+import { RestoreScrollPositionDirective } from '../../shared/directive/restore-scroll-position.directive';
 @Component({
   selector: 'app-country',
   standalone: true,
@@ -28,7 +29,8 @@ import { NgOptimizedImage } from '@angular/common';
     SkeletonModule,
     SearchComponent,
     RouterModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    RestoreScrollPositionDirective
   ],
   templateUrl: './country.component.html',
 })
