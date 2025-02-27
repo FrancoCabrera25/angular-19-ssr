@@ -2,10 +2,15 @@
   <div class="flex-grow flex-1">
     <app-search (searchChange)="onSearch($event)" />
   </div>
-  <p-toggleswitch (onChange)="toggleDarkMode()" [ngModel]="isDarkMode()" class="flex-none">
+  <p-toggleswitch
+    (onChange)="toggleDarkMode()"
+    [ngModel]="isDarkMode()"
+    class="flex-none"
+  >
     <ng-template #handle let-checked="checked">
-      <i [ngClass]="['!text-xs', 'pi-moon', isDarkMode() ? 'pi-moon' : 'pi-sun']"></i>
-
+      <i
+        [ngClass]="['!text-xs', 'pi-moon', isDarkMode() ? 'pi-moon' : 'pi-sun']"
+      ></i>
     </ng-template>
   </p-toggleswitch>
 </div>
@@ -27,7 +32,6 @@
     @for (country of countriesResource.value(); track country.name.common) {
     @defer (hydrate on viewport) {
     <p-card
-      [routerLink]="['/country', country.cca3]"
       [header]="country.name.common"
       class="h-full cursor-pointer transform transition-all hover:scale-105"
       [style]="{ 'min-height': '400px' }"
