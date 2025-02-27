@@ -30,7 +30,7 @@
   } } @else {
   <ng-container restoreScrollPosition>
     @for (country of countriesResource.value(); track country.name.common) {
-    @defer (hydrate on viewport) {
+    @defer (on viewport) {
     <p-card
       [header]="country.name.common"
       class="h-full cursor-pointer transform transition-all hover:scale-105"
