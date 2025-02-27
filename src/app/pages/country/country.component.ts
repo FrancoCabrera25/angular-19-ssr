@@ -11,7 +11,7 @@ import { Renderer2 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgClass } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 import { CountriesService } from '../../core/countries.service';
 import { Country } from '../../shared/interface/country.interface';
@@ -19,6 +19,8 @@ import { SearchComponent } from '../../shared/search/search.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NgOptimizedImage } from '@angular/common';
 import { RestoreScrollPositionDirective } from '../../shared/directive/restore-scroll-position.directive';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-country',
   standalone: true,
@@ -30,7 +32,10 @@ import { RestoreScrollPositionDirective } from '../../shared/directive/restore-s
     SearchComponent,
     RouterModule,
     NgOptimizedImage,
-    RestoreScrollPositionDirective
+    RestoreScrollPositionDirective,
+    ToggleSwitchModule,
+    NgClass,
+    FormsModule,
   ],
   templateUrl: './country.component.html',
 })
@@ -39,7 +44,7 @@ export default class CountryComponent {
   isDarkMode = signal(false);
   countries = signal<Country[]>([]);
   countryName = signal('');
-
+  checked = false;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private countriesService: CountriesService

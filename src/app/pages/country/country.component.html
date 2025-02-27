@@ -1,4 +1,14 @@
-<app-search (searchChange)="onSearch($event)" />
+<div class="flex gap-4 items-center">
+  <div class="flex-grow flex-1">
+    <app-search (searchChange)="onSearch($event)" />
+  </div>
+  <p-toggleswitch (onChange)="toggleDarkMode()" [ngModel]="isDarkMode()" class="flex-none">
+    <ng-template #handle let-checked="checked">
+      <i [ngClass]="['!text-xs', 'pi-moon', isDarkMode() ? 'pi-moon' : 'pi-sun']"></i>
+
+    </ng-template>
+  </p-toggleswitch>
+</div>
 
 <div
   class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8"
@@ -15,8 +25,9 @@
   } } @else {
   <ng-container restoreScrollPosition>
     @for (country of countriesResource.value(); track country.name.common) {
-    @defer (on viewport) {
+    @defer (hydrate on viewport) {
     <p-card
+      [routerLink]="['/country', country.cca3]"
       [header]="country.name.common"
       class="h-full cursor-pointer transform transition-all hover:scale-105"
       [style]="{ 'min-height': '400px' }"
@@ -27,7 +38,6 @@
           [alt]="country.flags.alt || country.name.common"
           width="400"
           height="200"
-          priority
           class="w-full h-48 object-cover"
         />
       </ng-template>

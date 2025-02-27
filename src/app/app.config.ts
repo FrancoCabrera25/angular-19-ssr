@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions(), withInMemoryScrolling({
       scrollPositionRestoration: 'enabled'
     })),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
     provideServerRouting(serverRoutes),
     provideHttpClient(withFetch()),
     provideAnimations()
